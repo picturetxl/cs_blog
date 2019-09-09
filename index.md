@@ -65,7 +65,7 @@ Explanation: 342 + 465 = 807.
 class Solution {
 public:
     ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
-            ListNode *p = l1;//保存第一个整数的链表
+        ListNode *p = l1;//保存第一个整数的链表
         ListNode *q = l2;//保存第二个整数的链表
         int carry = 0;//进位
         int sum = 0;
