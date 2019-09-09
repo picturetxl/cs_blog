@@ -65,28 +65,28 @@ Explanation: 342 + 465 = 807.
 class Solution {
 public:
     ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
-                ListNode *p = l1;//保存第一个整数的链表
-		ListNode *q = l2;//保存第二个整数的链表
-		int carry = 0;//进位
-		int sum = 0;
-		ListNode *head = new ListNode(0);
-		ListNode *curr = head;
-		while (p!=NULL || q!=NULL)//两个都不为空
-		{
-			int x = (p != NULL) ? p->val : 0;
-			int y = (q != NULL) ? q->val : 0;
-			int sum = carry + x + y;//带进位加法
-			carry = sum / 10;//计算进位
-			curr->next = new ListNode(sum % 10);//保存余数
-			curr = curr->next;//更新结果指针
+            ListNode *p = l1;//保存第一个整数的链表
+        ListNode *q = l2;//保存第二个整数的链表
+        int carry = 0;//进位
+        int sum = 0;
+        ListNode *head = new ListNode(0);
+        ListNode *curr = head;
+        while (p!=NULL || q!=NULL)//两个都不为空
+        {
+            int x = (p != NULL) ? p->val : 0;
+            int y = (q != NULL) ? q->val : 0;
+            int sum = carry + x + y;//带进位加法
+            carry = sum / 10;//计算进位
+            curr->next = new ListNode(sum % 10);//保存余数
+            curr = curr->next;//更新结果指针
                         //移动两个整数指针
-			if (p != NULL) p = p->next;
-			if (q != NULL) q = q->next;
-		}
-		if (carry > 0) {//计算最后两个数进位 如果大于0 则新增节点
-			curr->next = new ListNode(carry);
-		}
-		return head->next;
+            if (p != NULL) p = p->next;
+            if (q != NULL) q = q->next;
+        }
+        if (carry > 0) {//计算最后两个数进位 如果大于0 则新增节点
+            curr->next = new ListNode(carry);
+        }
+        return head->next;
     }
 };
 ```
