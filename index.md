@@ -91,3 +91,103 @@ public:
 };
 ```
 
+
+#### 3. Longest Substring Without Repeating Characters
+```cpp
+Input: "abcabcbb"
+Output: 3 
+Explanation: The answer is "abc", with the length of 3. 
+```
+**说明**
+> 最长子串 不能重复
+
+**思路**
+> 滑动窗口 --计算机网络中有应用
+> 有点类似与快速排序 用两个游标指向左侧和右侧
+
+**原题链接**
+> [Longest_Substring_Without_Repeating_Characters](https://leetcode.com/problems/longest-substring-without-repeating-characters/)
+
+```cpp
+class Solution {
+public:
+    int lengthOfLongestSubstring(string s) {
+        int n = s.length();
+	int ans = 0, i = 0, j = 0;//ans记录最大的窗口含有的值的数量 i表示left j表示right 相当于指针遍历s
+	unordered_set<char> myset;//窗口
+	while (i < n && j < n) {
+            //如果不在窗口中,将char插入到窗口中 j++ 计算此时ans的最大值
+            if (!myset.count(s[j]))
+            {
+                myset.insert(s[j]);
+                j++;
+                ans = max(ans, j - i);
+            }//否则 即在窗口中,将该字符删除,使得i++
+            else {
+                myset.erase(s[i]);
+                i++;
+            }
+	}
+	return ans;
+    }
+};
+```
+
+#### 4. Median of Two Sorted Arrays
+```cpp
+nums1 = [1, 2]
+nums2 = [3, 4]
+
+The median is (2 + 3)/2 = 2.5
+```
+**说明**
+> 将两个已经排序的数组计算出中值 要求 复杂度log(m+n)
+
+**思路**
+> 将两个数组合并成一个数组,因为两个数组是已经排好序的,联想到归并排序
+> 归并排序的归并过程类似于两堆已经排好序的牌堆,需要将这两个牌堆放到一个牌堆,先比较牌堆最上面的两张牌,小于的那一张进入最终的牌堆,另一堆不动,一直到它小于另一牌堆的最上面的值
+
+**原题链接**
+> [Median of Two Sorted Arrays](https://leetcode.com/problems/median-of-two-sorted-arrays/)
+
+```cpp
+class Solution {
+public:
+    double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
+        int i = 0, j = 0;//i是左侧牌堆 j控制右侧牌堆
+	int mid = 0;
+	int temp = 0;
+	vector<int> v;//最终的牌堆
+	//类似于归并排序  将两组数归并到一组数中
+	while (i<nums1.size() && j<nums2.size())
+	{//哪个小,就放入最终牌堆
+            if (nums1[i] <= nums2[j])
+                v.push_back(nums1[i++]);
+            else
+                v.push_back(nums2[j++]);
+	}
+        //因为可能一堆已经没牌了,所以需要将另一堆全部放入最终牌堆
+	while (i<nums1.size())
+	{
+            v.push_back(nums1[i++]);
+	}
+	while (j < nums2.size())
+	{
+            v.push_back(nums2[j++]);
+	}
+	//计算中间值
+	mid = v.size() / 2;
+	if (v.size() % 2 == 0)
+	{
+            temp = mid - 1;
+            return (v[temp] + v[mid]) / 2.0;
+	}
+	else
+	{
+            return v[mid];
+	}
+    }
+};
+```
+
+
