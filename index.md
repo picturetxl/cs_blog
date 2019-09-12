@@ -190,4 +190,66 @@ public:
 };
 ```
 
+#### 5. Longest Palindromic Substring
+```cpp
+Input: "babad"
+Output: "bab"
+Note: "aba" is also a valid answer.
+```
+**说明**
+> 最长的回文子串
+
+**思路**
+> 动态规划 原串可以分为子串
+
+**原题链接**
+> [Median of Two Sorted Arrays](https://leetcode.com/problems/median-of-two-sorted-arrays/)
+
+```cpp
+class Solution {
+public:
+    string longestPalindrome(string s) {
+        if (s.size() <= 1)      //一个字符
+		return s;
+
+	int dpTableDim = s.size();
+	//备忘录 //二维动态数组的初始化
+	vector<vector<bool>> dpTable(dpTableDim, vector<bool>(dpTableDim, false));
+
+	string longestPalindrome = string(1, s[0]);
+
+	//每个字符都是回文 将其状态设置成true 那么此时最大的回文数就是1
+	int maxLength = 1;
+	for (int i = 0; i < dpTableDim; ++i)    
+		dpTable[i][i] = true;
+
+	//
+	for (int i = 0; i < dpTableDim - 1; ++i) {
+		if (s[i] == s[i + 1]) {
+			dpTable[i][i + 1] = true;
+			if (maxLength < 2) {
+				maxLength = 2;
+				longestPalindrome = string(s.begin() + i, s.begin() + i + 2);
+			}
+		}
+	}
+    
+	for (int k = 3; k <= dpTableDim; ++k) {
+		for (int i = 0; i < dpTableDim - k + 1; ++i) {
+			int j = i + k - 1;
+			if ((dpTable[i + 1][j - 1] == true) && (s[i] == s[j])) {
+				dpTable[i][j] = true;
+				if (maxLength < k) {
+					maxLength = k;
+					longestPalindrome = std::string(s.begin() + i, s.begin() + j + 1);
+				}
+			}
+		}
+	}
+
+	return longestPalindrome;
+    }
+};
+```
+
 
