@@ -200,8 +200,14 @@ Note: "aba" is also a valid answer.
 > 最长的回文子串
 
 **思路**
-> 动态规划 原串可以分为子串
+> 动态规划 原串可以分为子串 dptable[i][j]表示从i到j的字符串是否是回文
+> dpTable 表示字符串区间 [i, j] 是否为回文串，当 i = j 时，只有一个字符，肯定是回文串，如果 i = j + 1，说明是相邻字符，此时需要判断 s[i] 是否等于 s[j]，如果i和j不相邻，即 i - j >= 2 时，除了判断 s[i] 和 s[j] 相等之外，dp[i + 1][j - 1] 若为真，就是回文串
 
+> 递推关系:
+> dptable[i][j] = 1 if i==j
+> dptable[i][j] = s[i] == s[j] if j=i+1
+> dptable[i][j] = s[i] == s[j] && dptable[i+1][j-1]  if j>i+1
+ 
 **原题链接**
 > [Median of Two Sorted Arrays](https://leetcode.com/problems/median-of-two-sorted-arrays/)
 
@@ -223,7 +229,7 @@ public:
 	for (int i = 0; i < dpTableDim; ++i)    
 		dpTable[i][i] = true;
 
-	//
+	//相邻的字符如果相同,就是回文字符串
 	for (int i = 0; i < dpTableDim - 1; ++i) {
 		if (s[i] == s[i + 1]) {
 			dpTable[i][i + 1] = true;
@@ -233,9 +239,9 @@ public:
 			}
 		}
 	}
-    
-	for (int k = 3; k <= dpTableDim; ++k) {
-		for (int i = 0; i < dpTableDim - k + 1; ++i) {
+    	
+	for (int k = 3; k <= dpTableDim; ++k) {//检测超过3个以上的字符串是否是回文
+		for (int i = 0; i < dpTableDim - k + 1; ++i) {//依次检验3个字符是否是回文 ,4个 ...
 			int j = i + k - 1;
 			if ((dpTable[i + 1][j - 1] == true) && (s[i] == s[j])) {
 				dpTable[i][j] = true;
@@ -251,5 +257,3 @@ public:
     }
 };
 ```
-
-
